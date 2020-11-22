@@ -1,0 +1,8 @@
+ipython==7.19.0
+Flask==1.1.2
+Werkzeug==1.0.0
+opencv-python==4.2.0.32
+pickleshare==0.7.5
+numpy==1.18.1
+pandas==1.0.3
+matplotlib==3.2.0
