@@ -1,11 +1,16 @@
 from flask import Flask, flash, request, redirect, render_template
 from werkzeug.utils import secure_filename
 from os import system
-from radtorch.settings import *
 
-path_model = "models/XR_ELBOW.pkl"
+from wtforms import SelectMultipleField, SubmitField
+
+from radtorch.settings import *
+import psutil
+from flask_wtf import FlaskForm
+
+path_model = "models/ELBOW/XR_ELBOW.pkl"
 path_upload = './uploads/'
-system(f"mkdir -p {path_upload}")
+model_names = [""]
 # path_output = '/output/'
 # save_path = path_output+datetime.now().strftime("%d%m%Y-%H%M%S")+'.png'
 # save_path = "output_"+datetime.now().strftime("%d%m%Y-%H%M%S")+'.png'
@@ -19,6 +24,20 @@ app.config['SECRET_KEY'] = '3db73ffc7894de38d4d24a342ef8dc765d821becf623e3be'
 app.config['UPLOAD_FOLDER'] = path_upload
 
 
+class IndexForm(FlaskForm):
+    choices = SelectMultipleField(
+        u'Select Color', choices=[('NN', 'Neural Network'), ('LR', 'Logistic Regression'), ('RF', 'Random Forest')])
+    submit = SubmitField('Submit')
+
+
+def calculate_ram():
+    pid = os.getpid()
+    print(pid)
+    ps = psutil.Process(pid)
+    memoryUse = ps.memory_info()
+    print(memoryUse)
+
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -26,8 +45,10 @@ def allowed_file(filename):
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
+    form = IndexForm()
+    print("@@@ CHOICES:\n", form.choices)
     if request.method == 'GET':
-        return render_template('bs.html')
+        return render_template('bs.html', form=form)
     if request.method == 'POST':
         if 'file' not in request.files:
             flash('No file part')
@@ -42,8 +63,11 @@ def upload_file():
                 os.makedirs(path_upload)
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
+
             idx, prob, encoded = detect(path_image=file_path, path_model=path_model)
+            result_dict = {"Neural Network": {"id": idx}}
             result_class = "Positive" if idx == 1 else "Negative"
+            calculate_ram()
             return render_template("result.html",
                                    result_class=result_class,
                                    prob=prob,
@@ -72,4 +96,4 @@ def import_radtorch_model(path_model):
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8160)
+    app.run(host='127.0.0.1', port=8174)

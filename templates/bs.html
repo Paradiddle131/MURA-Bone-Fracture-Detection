@@ -6,12 +6,22 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <link rel="stylesheet" href="/static/css/style.css">
 
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 <!-- partial:index.partial.html -->
 <div class="frame">
   <div class="center">
       <form action="/" method="post" enctype="multipart/form-data">
+        {{form.hidden_tag() }}
 		<div class="bar"></div>
 		<div class="title">Radyografik Görüntüyü Yükleyin</div>
 		<div class="dropzone">
@@ -21,6 +31,17 @@
 				<input type="file" class="input" name="file" autocomplete="off" required>
 			</div>
 		</div>
+
+          <div class="dropdown">
+              <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Classification Method
+              <span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                {% for subfield in form.choices %}
+                    <li><a href="#">{{ subfield.label }}</a></li>
+                {% endfor %}
+              </ul>
+          </div>
+
 		<img src="https://100dayscss.com/codepen/syncing.svg" class="syncing">
 		<img src="https://100dayscss.com/codepen/checkmark.svg" class="done">
         <input class="upload-btn" type="submit" name="submit">

@@ -60,7 +60,8 @@ class Image_Classification():
                 optimizer_parameters={},
                 transformations='default',
                 extra_transformations=None,
-                device='auto',
+                # device='auto',
+                device='cpu',
                 auto_save=False,
                 **kwargs):
 
@@ -174,6 +175,7 @@ class Image_Classification():
 
         prep_img=self.data_processor.transformations(image)
         prep_img=prep_img.unsqueeze(0)
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         prep_img = prep_img.to(self.device)
         cam, idx, prob = wrapped_model(prep_img)
         _, _, H, W = prep_img.shape
