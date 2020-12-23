@@ -10,7 +10,8 @@ from flask_wtf import FlaskForm
 from pprint import pprint
 from json import dumps
 
-path_model = "models/ELBOW/XR_ELBOW.pkl"
+# path_model = "models/ELBOW/XR_ELBOW.pkl"
+selected_part = ""
 path_upload = './uploads/'
 model_names = [""]
 # path_output = '/output/'
@@ -77,8 +78,8 @@ file = None
 
 @app.route('/res', methods=['GET', 'POST'])
 def res():
-    print("Selected part is:")
-    pprint(request.data.decode("utf-8"))
+    global selected_part
+    selected_part = request.data.decode("utf-8")
     return app.response_class(
 			    response=dumps("Success!"),
 			    status=200,
@@ -88,7 +89,7 @@ def res():
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
-    global file
+    global file, selected_part
     form = IndexForm()
     form.part.choices = ['ELBOW', 'FINGER', 'FOREARM', 'HAND', 'HUMERUS', 'SHOULDER', 'WRIST']
     # if form.validate_on_submit():
@@ -109,6 +110,7 @@ def upload_file():
                 os.makedirs(path_upload)
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
+            path_model = f"models/{selected_part}/XR_{selected_part}.pkl"
             idx, prob, encoded = detect(path_image=file_path, path_model=path_model)
             # result_dict = {"Neural Network": {"id": idx}}
             result_class = "Positive" if idx == 1 else "Negative"
@@ -121,7 +123,7 @@ def upload_file():
 
 
 def detect(path_image, path_model):
-    model = import_radtorch_model(path_model)
+    model = pickle.load(open(path_model, 'rb'))
     return display_class_activation_map(model, path_image)
 
 
@@ -135,11 +137,6 @@ def display_class_activation_map(model, target_image_path):
                      figure_size=(20, 7),
                      cmap='jet',
                      alpha=0.2)
-
-
-def import_radtorch_model(path_model):
-    return pickle.load(open(path_model, 'rb'))
-
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8000)
