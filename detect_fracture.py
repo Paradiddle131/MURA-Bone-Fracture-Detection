@@ -7,6 +7,8 @@ from wtforms import SelectMultipleField, SubmitField, SelectField
 from radtorch.settings import *
 import psutil
 from flask_wtf import FlaskForm
+from pprint import pprint
+from json import dumps
 
 path_model = "models/ELBOW/XR_ELBOW.pkl"
 path_upload = './uploads/'
@@ -49,10 +51,10 @@ Parts = {"1": "ELBOW",
 
 file = None
 
-@app.route('/<body_part_no>', methods=['GET', 'POST'])
-def elbow(body_part_no):
-    print(f"{Parts[body_part_no]} Selected")
-    return f"<h1>{Parts[body_part_no]} Selected!</h1>"
+# @app.route('/<body_part_no>', methods=['GET', 'POST'])
+# def elbow(body_part_no):
+#     print(f"{Parts[body_part_no]} Selected")
+#     return f"<h1>{Parts[body_part_no]} Selected!</h1>"
 
 
 # @app.route('/1', methods=['GET', 'POST'])
@@ -71,6 +73,17 @@ def elbow(body_part_no):
 # def random_forest():
 #     print("NN Selected")
 #     return "<h1>Random Forest Selected!</h1>"
+
+
+@app.route('/res', methods=['GET', 'POST'])
+def res():
+    print("Selected part is:")
+    pprint(request.data.decode("utf-8"))
+    return app.response_class(
+			    response=dumps("Success!"),
+			    status=200,
+			    mimetype='application/json'
+			)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -96,16 +109,15 @@ def upload_file():
                 os.makedirs(path_upload)
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
-
             idx, prob, encoded = detect(path_image=file_path, path_model=path_model)
             # result_dict = {"Neural Network": {"id": idx}}
             result_class = "Positive" if idx == 1 else "Negative"
-
             return render_template("result.html",
-                                   result_class=result_class,
-                                   prob=prob,
-                                   encoded=encoded,
-                                   selected_part=None)
+                                    result_class=result_class,
+                                    prob=prob,
+                                    encoded=encoded,
+                                    selected_part=None)
+        	
 
 
 def detect(path_image, path_model):
@@ -130,4 +142,4 @@ def import_radtorch_model(path_model):
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8174)
+    app.run(host='127.0.0.1', port=8000)

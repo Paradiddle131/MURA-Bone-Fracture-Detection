@@ -1,3 +1,23 @@
+(function ($) {
+    /*[ Select 2 Config ]
+        ===========================================================*/
+    try {
+        var selectSimple = $('.js-select-simple');
+
+        selectSimple.each(function () {
+            var that = $(this);
+            var selectBox = that.find('select');
+            var selectDropdown = that.find('.select-dropdown');
+            selectBox.select2({
+                dropdownParent: selectDropdown
+            });
+        });
+
+    } catch (err) {
+        console.log(err);
+    }
+})(jQuery);
+
 var droppedFiles = false;
 var fileName = '';
 var $dropzone = $('.dropzone');
@@ -28,6 +48,7 @@ $dropzone.on('drag dragstart dragend dragover dragenter dragleave drop', functio
 
 $button.bind('click', function() {
 	startUpload();
+	sendData();
 });
 
 $("input:file").change(function (){
@@ -51,4 +72,16 @@ function startUpload() {
 function showDone() {
 	$button.html('Done');
 	// document.location.href = window.location.origin+"/results"
+}
+
+function sendData() {
+	var http = new XMLHttpRequest();
+	var data = $("#dropdown_part option:selected").text();
+	// data = JSON.stringify(data);
+	http.open("POST", "/res");
+	http.setRequestHeader("Access-Control-Allow-Headers", "Accept");
+	http.setRequestHeader("Access-Control-Allow-Origin", "/res");
+	http.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+	console.log(data);
+	http.send(data);
 }
