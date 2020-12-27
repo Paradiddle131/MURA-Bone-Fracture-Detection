@@ -60,9 +60,10 @@ body {
 
 .center-result {
     position: relative;
-    background: -webkit-gradient(linear, left bottom, right top, from(#17cbe3), to(#0330fc));
-    background: linear-gradient(to top right, #17cbe3 0%, #0330fc 100%);
-    top: 40px;
+    /* background: -webkit-gradient(linear, left bottom, right top, from(#17cbe3), to(#0330fc)); */
+    /* background: linear-gradient(to top right, #17cbe3 0%, #0330fc 100%); */
+    background: #191919;
+    top: 80px;
     margin: auto;
     box-shadow: 30px 15px 30px 0 rgba(0, 0, 0, 0.4);
     border-radius: 30px;
@@ -82,7 +83,7 @@ body {
 
 .results {
     font-size: 15px;
-    color: #000000;
+    color: #D8D8D8;
     line-height: 10px;
     height: 90px;
     border-bottom: 3px solid #D8D8D8;
@@ -188,7 +189,7 @@ body {
 
 .syncing {
     position: absolute;
-    top: 109px;
+    top: 149px;
     left: 134px;
     opacity: 0;
 }
@@ -200,7 +201,7 @@ body {
 
 .done {
     position: absolute;
-    top: 112px;
+    top: 152px;
     left: 132px;
     opacity: 0;
 }

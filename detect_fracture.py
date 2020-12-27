@@ -10,15 +10,10 @@ from flask_wtf import FlaskForm
 from pprint import pprint
 from json import dumps
 
-# path_model = "models/ELBOW/XR_ELBOW.pkl"
 selected_part = ""
 path_upload = './uploads/'
 model_names = [""]
-# path_output = '/output/'
-# save_path = path_output+datetime.now().strftime("%d%m%Y-%H%M%S")+'.png'
-# save_path = "output_"+datetime.now().strftime("%d%m%Y-%H%M%S")+'.png'
 save_path = "output.png"
-# system("mkdir -p output")
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__)
@@ -35,9 +30,6 @@ def allowed_file(filename):
 class IndexForm(FlaskForm):
     parts = [('ELBOW', 'ELBOW'), ('FINGER', 'FINGER'), ('FOREARM', 'FOREARM'), ('HAND', 'HAND'),
                    ('HUMERUS', 'HUMERUS'), ('SHOULDER', 'SHOULDER'), ('WRIST', 'WRIST')]
-    # choices = SelectMultipleField(
-    #     u'Select Model', choices=models_list)
-    # model = SelectField('Model', choices=models_list, default='Neural Network')
     part = SelectField('Part', choices=parts, render_kw={'onchange': "myFunction()"})
     submit = SubmitField('Submit')
 
@@ -51,30 +43,6 @@ Parts = {"1": "ELBOW",
          "7": "WRIST"}
 
 file = None
-
-# @app.route('/<body_part_no>', methods=['GET', 'POST'])
-# def elbow(body_part_no):
-#     print(f"{Parts[body_part_no]} Selected")
-#     return f"<h1>{Parts[body_part_no]} Selected!</h1>"
-
-
-# @app.route('/1', methods=['GET', 'POST'])
-# def elbow():
-#     print("NN Selected")
-#     return "<h1>Neural Network Selected!</h1>"
-#
-#
-# @app.route('/2', methods=['GET', 'POST'])
-# def logistic_regression():
-#     print("NN Selected")
-#     return "<h1>Logistic Regression Selected!</h1>"
-#
-#
-# @app.route('/3', methods=['GET', 'POST'])
-# def random_forest():
-#     print("NN Selected")
-#     return "<h1>Random Forest Selected!</h1>"
-
 
 @app.route('/res', methods=['GET', 'POST'])
 def res():
@@ -90,6 +58,7 @@ def res():
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     global file, selected_part
+    print("selected_part:", selected_part)
     form = IndexForm()
     form.part.choices = ['ELBOW', 'FINGER', 'FOREARM', 'HAND', 'HUMERUS', 'SHOULDER', 'WRIST']
     # if form.validate_on_submit():
@@ -114,13 +83,13 @@ def upload_file():
             idx, prob, encoded = detect(path_image=file_path, path_model=path_model)
             # result_dict = {"Neural Network": {"id": idx}}
             result_class = "Positive" if idx == 1 else "Negative"
+            prob = round(prob, 6)
             return render_template("result.html",
                                     result_class=result_class,
                                     prob=prob,
                                     encoded=encoded,
                                     selected_part=None)
         	
-
 
 def detect(path_image, path_model):
     model = pickle.load(open(path_model, 'rb'))
