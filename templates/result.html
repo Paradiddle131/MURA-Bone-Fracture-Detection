@@ -1,27 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>MURA Results</title>
-  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-<link rel="stylesheet" href="/static/css/style.css">
+    <meta charset="UTF-8">
+    <title>MURA Results</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
 
 </head>
+
 <body>
-<!-- partial:index.partial.html -->
-<div class="center-result">
-    <div class="results">
-        <h2>RESULTS:</h2>
-        <h3>Predicted class: {{ result_class }}</h3>
-        <h3>Probability: {{ prob }}</h3>
+    <!-- partial:index.partial.html -->
+    <div class="center-result">
+        <div class="results">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2">Neural Network</th>
+                        <th colspan="2">Logistic Regression</th>
+                        <th colspan="2">Random Forest</th>
+                    </tr>
+                </thead>
+                <thead>
+                    <tr>
+                        <th colspan="1">Result Class</th>
+                        <th colspan="1">Probability</th>
+                        <th colspan="1">Result Class</th>
+                        <th colspan="1">Probability</th>
+                        <th colspan="1">Result Class</th>
+                        <th colspan="1">Probability</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for key, value in scores.items() %}
+                        <td>{{ value.result_class|e }}</td>
+                        <td>{{ value.probability|e }}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <!-- <h2>RESULTS:</h2>
+            <h3>Predicted class: {{ result_class }}</h3>
+            <h3>Probability: {{ prob }}</h3> -->
+        </div>
+        {# <img class="output" src="data:image/png;base64,{{ encoded }}" width=window.innerWidth/2 height=window.innerHeight/2>#}
+        <img class="output" src="data:image/png;base64,{{ encoded }}">
     </div>
-{#    <img class="output" src="data:image/png;base64,{{ encoded }}" width=window.innerWidth/2 height=window.innerHeight/2>#}
-    <img class="output" src="data:image/png;base64,{{ encoded }}">
-</div>
-<!-- partial -->
-  <script src='https://100dayscss.com/codepen/js/jquery.min.js'></script>
-  <script  src="/static/js/script.js"></script>
+    <!-- partial -->
+    <script src='https://100dayscss.com/codepen/js/jquery.min.js'></script>
+    <script src="/static/js/script.js"></script>
 
 </body>
+
 </html>

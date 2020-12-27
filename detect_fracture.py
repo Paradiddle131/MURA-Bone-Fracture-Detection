@@ -61,6 +61,8 @@ def upload_file():
     print("selected_part:", selected_part)
     form = IndexForm()
     form.part.choices = ['ELBOW', 'FINGER', 'FOREARM', 'HAND', 'HUMERUS', 'SHOULDER', 'WRIST']
+    classifiers = ["NN", "LR", "RF"]
+    scores = {}
     # if form.validate_on_submit():
     #     form = form.part.data
     if request.method == 'GET':
@@ -79,28 +81,45 @@ def upload_file():
                 os.makedirs(path_upload)
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
-            path_model = f"models/{selected_part}/XR_{selected_part}.pkl"
-            idx, prob, encoded = detect(path_image=file_path, path_model=path_model)
+
+            for classifier in classifiers:
+                path_model = f"models/{selected_part}/XR_{selected_part}_{classifier}.pkl"
+                model = pickle.load(open(path_model, 'rb'))
+                if classifier == "NN":
+                    idx, prob, encoded = display_class_activation_map(model, target_image_path=file_path)
+                else:
+                    idx, prob = predict(model, file_path)
+                result_class = "Positive" if idx == 1 else "Negative"
+                scores.update({classifier: {"result_class": result_class, "probability": prob}})
+            print(scores)
+
             # result_dict = {"Neural Network": {"id": idx}}
-            result_class = "Positive" if idx == 1 else "Negative"
             prob = round(prob, 6)
             return render_template("result.html",
+                                    scores=scores,
                                     result_class=result_class,
                                     prob=prob,
                                     encoded=encoded,
                                     selected_part=None)
-        	
 
-def detect(path_image, path_model):
-    model = pickle.load(open(path_model, 'rb'))
-    return display_class_activation_map(model, path_image)
-
+def predict(model, file_path):
+    df = model.classifier.predict(file_path, True)
+    prob = df['PREDICTION_ACCURACY'].max()
+    idx = df.loc[df['PREDICTION_ACCURACY'] == prob]['LABEL_IDX'].item()
+    print("predict scores:\n")
+    print(idx)
+    print(float(prob))
+    return idx, float(prob)
 
 def display_class_activation_map(model, target_image_path):
     """class activation maps from a specific layer of the trained model"""
     global save_path
+    try:
+        target_layer=model.trained_model.layer4[2].conv3
+    except:
+        target_layer = None
     return model.cam(target_image_path=target_image_path,
-                     target_layer=model.trained_model.layer4[2].conv3,
+                     target_layer=target_layer,
                      save_path=save_path,
                      type='gradcam',
                      figure_size=(20, 7),
