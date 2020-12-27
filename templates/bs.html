@@ -1,37 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      <title>MURA Fracture Detection</title>
-      <!-- Vendor CSS-->
-      <link href="../static/vendor/select2/select2.min.css" rel="stylesheet" media="all">
-      <link href="../static/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
-      <!-- Latest compiled and minified CSS -->
-      <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
-      <!-- Main CSS-->
-      <link rel="stylesheet" href="../static/css/style.css">
-      <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-      <!-- jQuery library -->
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-      <!-- Latest compiled JavaScript -->
-      <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
-   </head>
-   <body>
-      <!-- partial:index.partial.html -->
-      <div class="frame">
-      <div class="center">
-         <form action="/" id="myForm" method="post" enctype="multipart/form-data">
-            <div class="bar"></div>
-            <div class="title">Radyografik Görüntüyü Yükleyin</div>
-            <div class="dropzone">
-               <div class="content">
-                  <img src="https://100dayscss.com/codepen/upload.svg" class="upload">
-                  <span class="filename"></span>
-                  <input type="file" class="input" name="file" autocomplete="off" required>
-               </div>
-            </div>
-            <div class="rs-select2 select2-container">
-               <select id="dropdown_part" name="part">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MURA Fracture Detection</title>
+    <!-- Vendor CSS-->
+    <link href="../static/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="../static/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+    <!-- Latest compiled and minified CSS -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+    <!-- Main CSS-->
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+</head>
+
+<body>
+    <!-- partial:index.partial.html -->
+    <div class="frame">
+        <div class="center">
+            <form action="/" id="myForm" method="post" enctype="multipart/form-data">
+                <div class="bar"></div>
+                <div class="title">Radyografik Görüntüyü Yükleyin</div>
+                <div class="dropzone">
+                    <div class="content">
+                        <img src="https://100dayscss.com/codepen/upload.svg" class="upload">
+                        <span class="filename"></span>
+                        <input type="file" class="input" name="file" autocomplete="off" required>
+                    </div>
+                </div>
+                <div class="rs-select2 select2-container">
+                    <select class="select" id="dropdown_part" name="part">
                   <option value="0" disabled="disabled" selected="selected">Select Part</option>
                   <option value="1">ELBOW</option>
                   <option value="2">FINGER</option>
@@ -41,16 +43,17 @@
                   <option value="6">SHOULDER</option>
                   <option value="7">WRIST</option>
                </select>
-            </div>
-               <img src="https://100dayscss.com/codepen/syncing.svg" class="syncing">
-               <img src="https://100dayscss.com/codepen/checkmark.svg" class="done">
-               <input class="upload-btn" type="submit" name="submit">
-         </form>
-      </div>
-      <!-- partial -->
-      <script src='https://100dayscss.com/codepen/js/jquery.min.js'></script>
-      <script src="../static/js/script.js"></script>
-      <script>
-      </script>
-   </body>
+                </div>
+                <img src="https://100dayscss.com/codepen/syncing.svg" class="syncing">
+                <img src="https://100dayscss.com/codepen/checkmark.svg" class="done">
+                <input class="upload-btn" type="submit" name="submit">
+            </form>
+        </div>
+        <!-- partial -->
+        <script src='https://100dayscss.com/codepen/js/jquery.min.js'></script>
+        <script src="../static/js/script.js"></script>
+        <script>
+        </script>
+</body>
+
 </html>
