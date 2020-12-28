@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>MURA Results</title>
+    <!-- Bootstrap Table -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="/static/css/style.css">
@@ -14,7 +17,7 @@
     <!-- partial:index.partial.html -->
     <div class="center-result">
         <div class="results">
-            <table>
+            <table class="table table-dark">
                 <thead>
                     <tr>
                         <th colspan="2">Neural Network</th>

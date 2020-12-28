@@ -90,11 +90,10 @@ def upload_file():
                 else:
                     idx, prob = predict(model, file_path)
                 result_class = "Positive" if idx == 1 else "Negative"
+                prob = round(prob, 6)
                 scores.update({classifier: {"result_class": result_class, "probability": prob}})
-            print(scores)
 
             # result_dict = {"Neural Network": {"id": idx}}
-            prob = round(prob, 6)
             return render_template("result.html",
                                     scores=scores,
                                     result_class=result_class,
@@ -106,9 +105,6 @@ def predict(model, file_path):
     df = model.classifier.predict(file_path, True)
     prob = df['PREDICTION_ACCURACY'].max()
     idx = df.loc[df['PREDICTION_ACCURACY'] == prob]['LABEL_IDX'].item()
-    print("predict scores:\n")
-    print(idx)
-    print(float(prob))
     return idx, float(prob)
 
 def display_class_activation_map(model, target_image_path):

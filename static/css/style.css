@@ -23,7 +23,7 @@ body {
     /*background: #0CE9AF;*/
     /* background: -webkit-gradient(linear, left bottom, right top, from(#3A92AF), to(#5CA05A)); */
     /* background: linear-gradient(to top right, #3A92AF 0%, #5CA05A 100%); */
-    background: linear-gradient(to right, #b92b27, #1565c0);
+    background: linear-gradient(to right, #b92b27, #0077ff);
     display: flex;
     flex-direction: column;
     font-family: Lato, serif;
@@ -85,10 +85,10 @@ body {
     font-size: 15px;
     color: #D8D8D8;
     line-height: 10px;
-    height: 90px;
+    height: 130px;
     border-bottom: 3px solid #D8D8D8;
     text-align: center;
-    margin-top: 3%
+    margin-top: 3%;
 }
 
 .dropzone {
@@ -434,4 +434,9 @@ select:disabled {
 
 .select select:disabled {
     border-top-color: #CCCCCC;
+}
+
+table {
+    margin: 0 auto;
+    width: auto !important;
 }
