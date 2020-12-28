@@ -186,27 +186,28 @@ class Image_Classification():
 
         plt.figure(figsize=figure_size)
 
-        plt.subplot(1, 3, 1)
+        plt.subplot(1, 2, 1)
         plt.axis('off')
-        plt.gca().set_title('Target Image')
+        plt.gca().set_title('Kaynak Görsel', fontsize=20)
         plt.imshow(output_image, cmap=plt.cm.gray)
 
-        plt.subplot(1, 3, 2)
-        plt.axis('off')
-        plt.gca().set_title(type.upper())
-        plt.imshow(cam.squeeze().cpu().numpy(), cmap=cmap, alpha=1)
+        # plt.subplot(1, 3, 2)
+        # plt.axis('off')
+        # plt.gca().set_title(type.upper(), fontsize=20)
+        # plt.imshow(cam.squeeze().cpu().numpy(), cmap=cmap, alpha=1)
 
-        plt.subplot(1, 3, 3)
+        plt.subplot(1, 2, 2)
         plt.axis('off')
-        plt.gca().set_title('OVERLAY')
+        plt.gca().set_title('Aktivasyon Haritası', fontsize=20)
         plt.imshow(output_image, cmap=plt.cm.gray)
-        plt.imshow(cam.squeeze().cpu().numpy(), cmap=cmap, alpha=alpha)
-        plt.gca().set_axis_off()
-        plt.subplots_adjust(top=1, bottom=0, right=1, left=0,
-                            hspace=0, wspace=0)
-        plt.margins(0, 0)
-        plt.gca().xaxis.set_major_locator(plt.NullLocator())
-        plt.gca().yaxis.set_major_locator(plt.NullLocator())
+        if idx == 1:
+            plt.imshow(cam.squeeze().cpu().numpy(), cmap=cmap, alpha=alpha)
+        # plt.gca().set_axis_off()
+        # plt.subplots_adjust(top=1, bottom=0, right=1, left=0,
+                            # hspace=0, wspace=0)
+        # plt.margins(0, 0)
+        # plt.gca().xaxis.set_major_locator(plt.NullLocator())
+        # plt.gca().yaxis.set_major_locator(plt.NullLocator())
         print("save_path:", save_path)
 
         tmpfile = BytesIO()

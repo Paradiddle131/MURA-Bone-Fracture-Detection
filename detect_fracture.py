@@ -15,6 +15,8 @@ path_upload = './uploads/'
 model_names = [""]
 save_path = "output.png"
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+host = "127.0.0.1"
+port = 8080
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -57,7 +59,7 @@ def res():
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
-    global file, selected_part
+    global file, selected_part, host, port
     print("selected_part:", selected_part)
     form = IndexForm()
     form.part.choices = ['ELBOW', 'FINGER', 'FOREARM', 'HAND', 'HUMERUS', 'SHOULDER', 'WRIST']
@@ -89,17 +91,16 @@ def upload_file():
                     idx, prob, encoded = display_class_activation_map(model, target_image_path=file_path)
                 else:
                     idx, prob = predict(model, file_path)
-                result_class = "Positive" if idx == 1 else "Negative"
+                result_class = "Pozitif" if idx == 1 else "Negatif"
                 prob = round(prob, 6)
                 scores.update({classifier: {"result_class": result_class, "probability": prob}})
 
             # result_dict = {"Neural Network": {"id": idx}}
             return render_template("result.html",
                                     scores=scores,
-                                    result_class=result_class,
-                                    prob=prob,
+                                    host_address=host+":"+str(port),
                                     encoded=encoded,
-                                    selected_part=None)
+                                    )
 
 def predict(model, file_path):
     df = model.classifier.predict(file_path, True)
@@ -123,4 +124,4 @@ def display_class_activation_map(model, target_image_path):
                      alpha=0.2)
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8000)
+    app.run(host=host, port=port)

@@ -24,6 +24,7 @@ body {
     /* background: -webkit-gradient(linear, left bottom, right top, from(#3A92AF), to(#5CA05A)); */
     /* background: linear-gradient(to top right, #3A92AF 0%, #5CA05A 100%); */
     background: linear-gradient(to right, #b92b27, #0077ff);
+    background: -webkit-gradient(linear, left bottom, right top, from(#b92b27), to(#0077ff));
     display: flex;
     flex-direction: column;
     font-family: Lato, serif;
@@ -439,4 +440,9 @@ select:disabled {
 table {
     margin: 0 auto;
     width: auto !important;
+}
+
+.back_to_root {
+    position: relative;
+    margin-top: 30px;
 }

@@ -6,7 +6,10 @@
     <title>MURA Results</title>
     <!-- Bootstrap Table -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="/static/css/style.css">
@@ -16,6 +19,9 @@
 <body>
     <!-- partial:index.partial.html -->
     <div class="center-result">
+        <div class="back_to_root">
+            <a href="/" class="link"><button class="btn btn-info"><i class="far fa-arrow-alt-circle-left"></i> Ana Menüye Dön</button></a>
+        </div>
         <div class="results">
             <table class="table table-dark">
                 <thead>
@@ -27,12 +33,12 @@
                 </thead>
                 <thead>
                     <tr>
-                        <th colspan="1">Result Class</th>
-                        <th colspan="1">Probability</th>
-                        <th colspan="1">Result Class</th>
-                        <th colspan="1">Probability</th>
-                        <th colspan="1">Result Class</th>
-                        <th colspan="1">Probability</th>
+                        <th colspan="1">Sonuç</th>
+                        <th colspan="1">Olasılık</th>
+                        <th colspan="1">Sonuç</th>
+                        <th colspan="1">Olasılık</th>
+                        <th colspan="1">Sonuç</th>
+                        <th colspan="1">Olasılık</th>
                     </tr>
                 </thead>
                 <tbody>
