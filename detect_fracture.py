@@ -1,14 +1,13 @@
-from flask import Flask, flash, request, redirect, render_template
-from werkzeug.utils import secure_filename
-from os import system
+from io import BytesIO
+import base64
+from json import dumps
 
-from wtforms import SelectMultipleField, SubmitField, SelectField
+from flask import Flask, flash, request, redirect, render_template
+from flask_wtf import FlaskForm
+from werkzeug.utils import secure_filename
+from wtforms import SubmitField, SelectField
 
 from radtorch.settings import *
-import psutil
-from flask_wtf import FlaskForm
-from pprint import pprint
-from json import dumps
 
 selected_part = ""
 path_upload = './uploads/'
@@ -31,7 +30,7 @@ def allowed_file(filename):
 
 class IndexForm(FlaskForm):
     parts = [('ELBOW', 'ELBOW'), ('FINGER', 'FINGER'), ('FOREARM', 'FOREARM'), ('HAND', 'HAND'),
-                   ('HUMERUS', 'HUMERUS'), ('SHOULDER', 'SHOULDER'), ('WRIST', 'WRIST')]
+             ('HUMERUS', 'HUMERUS'), ('SHOULDER', 'SHOULDER'), ('WRIST', 'WRIST')]
     part = SelectField('Part', choices=parts, render_kw={'onchange': "myFunction()"})
     submit = SubmitField('Submit')
 
@@ -43,18 +42,21 @@ Parts = {"1": "ELBOW",
          "5": "HUMERUS",
          "6": "SHOULDER",
          "7": "WRIST"}
+classifiers = ["NN", "LR", "RF"]
+colors = []
 
 file = None
+
 
 @app.route('/res', methods=['GET', 'POST'])
 def res():
     global selected_part
     selected_part = request.data.decode("utf-8")
     return app.response_class(
-			    response=dumps("Success!"),
-			    status=200,
-			    mimetype='application/json'
-			)
+        response=dumps("Success!"),
+        status=200,
+        mimetype='application/json'
+    )
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -63,8 +65,8 @@ def upload_file():
     print("selected_part:", selected_part)
     form = IndexForm()
     form.part.choices = ['ELBOW', 'FINGER', 'FOREARM', 'HAND', 'HUMERUS', 'SHOULDER', 'WRIST']
-    classifiers = ["NN", "LR", "RF"]
-    scores = {}
+    results = {}
+    scores = []
     # if form.validate_on_submit():
     #     form = form.part.data
     if request.method == 'GET':
@@ -93,14 +95,33 @@ def upload_file():
                     idx, prob = predict(model, file_path)
                 result_class = "Pozitif" if idx == 1 else "Negatif"
                 prob = round(prob, 6)
-                scores.update({classifier: {"result_class": result_class, "probability": prob}})
-
+                results.update({classifier: {"result_class": result_class, "probability": prob}})
+                scores.append(prob)
+                colors.append("green" if result_class == "Pozitif" else "red")
+            encoded_graph = compare_scores(scores)
             # result_dict = {"Neural Network": {"id": idx}}
             return render_template("result.html",
-                                    scores=scores,
-                                    host_address=host+":"+str(port),
-                                    encoded=encoded,
-                                    )
+                                   scores=results,
+                                   host_address=host + ":" + str(port),
+                                   encoded=encoded,
+                                   encoded_graph=encoded_graph
+                                   )
+
+
+def compare_scores(scores):
+    """Comparison of the classification scores"""
+    fig = plt.figure(figsize=(7, 4))
+    legends = ["Positive", "Negative"]
+    handles = [plt.Rectangle((0, 0), 1, 1, color=color) for color in ["green", "red"]]
+    plt.legend(handles, legends)
+    plt.bar(classifiers, scores, color=colors, width=0.4)
+    plt.xlabel("Classifier")
+    plt.ylabel("Score")
+    plt.title("Comparison of the classification scores")
+    tmpfile = BytesIO()
+    plt.savefig(tmpfile, format='png', bbox_inches='tight')
+    return base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+
 
 def predict(model, file_path):
     df = model.classifier.predict(file_path, True)
@@ -108,11 +129,12 @@ def predict(model, file_path):
     idx = df.loc[df['PREDICTION_ACCURACY'] == prob]['LABEL_IDX'].item()
     return idx, float(prob)
 
+
 def display_class_activation_map(model, target_image_path):
     """class activation maps from a specific layer of the trained model"""
     global save_path
     try:
-        target_layer=model.trained_model.layer4[2].conv3
+        target_layer = model.trained_model.layer4[2].conv3
     except:
         target_layer = None
     return model.cam(target_image_path=target_image_path,
@@ -122,6 +144,7 @@ def display_class_activation_map(model, target_image_path):
                      figure_size=(20, 7),
                      cmap='jet',
                      alpha=0.2)
+
 
 if __name__ == '__main__':
     app.run(host=host, port=port)

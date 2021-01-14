@@ -76,7 +76,7 @@ function showDone() {
 
 function sendData() {
 	var http = new XMLHttpRequest();
-	var data = $("#dropdown_part option:selected").text();
+	var data = $("#dropdown_part option:selected").val();
 	// data = JSON.stringify(data);
 	http.open("POST", "/res");
 	http.setRequestHeader("Access-Control-Allow-Headers", "Accept");
