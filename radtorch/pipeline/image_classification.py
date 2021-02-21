@@ -202,6 +202,7 @@ class Image_Classification():
         plt.imshow(output_image, cmap=plt.cm.gray)
         if idx == 1:
             plt.imshow(cam.squeeze().cpu().numpy(), cmap=cmap, alpha=alpha)
+        plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=-0.45, hspace=None)
         # plt.gca().set_axis_off()
         # plt.subplots_adjust(top=1, bottom=0, right=1, left=0,
                             # hspace=0, wspace=0)
