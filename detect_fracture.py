@@ -61,7 +61,7 @@ def res():
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
-    global file, selected_part, host, port
+    global file, selected_part, host, port, colors
     print("selected_part:", selected_part)
     form = IndexForm()
     form.part.choices = ['ELBOW', 'FINGER', 'FOREARM', 'HAND', 'HUMERUS', 'SHOULDER', 'WRIST']
@@ -85,6 +85,7 @@ def upload_file():
                 os.makedirs(path_upload)
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
+            colors = []
 
             for classifier in classifiers:
                 path_model = f"models/{selected_part}/XR_{selected_part}_{classifier}.pkl"
