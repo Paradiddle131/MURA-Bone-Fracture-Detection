@@ -56,9 +56,13 @@
             <h3>Predicted class: {{ result_class }}</h3>
             <h3>Probability: {{ prob }}</h3> -->
         </div>
-        <img class="output" src="data:image/png;base64,{{ encoded_graph }}">
-        {# <img class="output" src="data:image/png;base64,{{ encoded }}" width=window.innerWidth/2 height=window.innerHeight/2>#}
-        <img class="output" src="data:image/png;base64,{{ encoded }}">
+        <div>
+            <img class="output" src="data:image/png;base64,{{ encoded_graph }}">
+        </div>
+        <div>
+            {# <img class="output" src="data:image/png;base64,{{ encoded }}" width=window.innerWidth/2 height=window.innerHeight/2>#}
+            <img class="output" src="data:image/png;base64,{{ encoded }}">
+        </div>
     </div>
     <!-- partial -->
     <script src='https://100dayscss.com/codepen/js/jquery.min.js'></script>
