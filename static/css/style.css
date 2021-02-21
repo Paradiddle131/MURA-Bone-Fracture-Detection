@@ -9,20 +9,13 @@
     margin-left: -200px;
     border-radius: 10px;
     box-shadow: 1px 2px 10px 0px rgba(0, 0, 0, 0.3);
-    /* background: #3A92AF; */
-    /* background: -webkit-gradient(linear, left bottom, right top, from(#3A92AF), to(#5CA05A)); */
     background: linear-gradient(to top right, #191919 0%, #060701c2 100%);
-    /*filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#3A92AF', endColorstr='#5CA05A', GradientType=1);*/
-    /* color: #fff; */
     font-family: 'Open Sans', Helvetica, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-    /*background: #0CE9AF;*/
-    /* background: -webkit-gradient(linear, left bottom, right top, from(#3A92AF), to(#5CA05A)); */
-    /* background: linear-gradient(to top right, #3A92AF 0%, #5CA05A 100%); */
     background: linear-gradient(to right, #b92b27, #0077ff);
     background: -webkit-gradient(linear, left bottom, right top, from(#b92b27), to(#0077ff));
     display: flex;
@@ -52,17 +45,12 @@ body {
     height: 300px;
     top: 70px;
     left: 50px;
-    /* background: #fff; */
-    /* background: #10110dda; */
     background: linear-gradient(to top right, #191919 0%, #060701c2 100%);
-    /* background: linear-gradient(to right, #10110dda 0%, #312f2f 100%); */
     box-shadow: 8px 10px 15px 0 rgba(0, 0, 0, 0.2);
 }
 
 .center-result {
     position: relative;
-    /* background: -webkit-gradient(linear, left bottom, right top, from(#17cbe3), to(#0330fc)); */
-    /* background: linear-gradient(to top right, #17cbe3 0%, #0330fc 100%); */
     background: #191919;
     top: 80px;
     margin: auto;
@@ -155,9 +143,7 @@ body {
     background: #A4A4A4;
     border-radius: 15px;
     text-align: center;
-    /* line-height: 40px; */
     font-size: 14px;
-    /* box-shadow: 0 2px 0 0 #A4A4A4; */
     cursor: pointer;
     -webkit-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
@@ -354,10 +340,8 @@ body {
     border: 0;
     background: none;
     display: block;
-    /* margin: 20px auto; */
     text-align: center;
     border: 2px solid #49ab4e;
-    /* padding: 14px 40px; */
     outline: none;
     color: white;
     border-radius: 24px;
@@ -373,14 +357,11 @@ body {
 .select {
     position: relative;
     display: inline-block;
-    /* margin: 15px; */
     width: 100%;
     top: 20px;
     left: 100%;
-    /* margin-left: 70%; */
     background: none;
     text-align: center;
-    /* box-shadow: 0 2px 0 0 #A4A4A4; */
     border: 2px solid #477e93;
     border-radius: 12px;
     color: white;
@@ -395,7 +376,6 @@ select {
     border: 0;
     border-radius: 0;
     background: #E6E6E6;
-    /* color: #7B7B7B; */
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
