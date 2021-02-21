@@ -12,7 +12,7 @@
     /* background: #3A92AF; */
     /* background: -webkit-gradient(linear, left bottom, right top, from(#3A92AF), to(#5CA05A)); */
     background: linear-gradient(to top right, #191919 0%, #060701c2 100%);
-    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#3A92AF', endColorstr='#5CA05A', GradientType=1);
+    /*filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#3A92AF', endColorstr='#5CA05A', GradientType=1);*/
     /* color: #fff; */
     font-family: 'Open Sans', Helvetica, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -29,7 +29,7 @@ body {
     flex-direction: column;
     font-family: Lato, serif;
     height: 100%;
-    margin: auto;
+    /*margin: auto;*/
     text-shadow: 0 0px 2px rgba(245, 245, 245, .25);
     vertical-align: middle;
     max-width: calc(100% - 200px);
